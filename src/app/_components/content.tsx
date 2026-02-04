@@ -1,10 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import { Header } from "./header";
 import { Hero } from "./hero";
-import { UploadPhoto } from "./upload-photo";
+import { UploadPhoto } from "./upload-photo"; 
 
 export function HomeContent() {
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>("")
+  const [generatedPhoto, setGeneratedPhoto] = useState<string | null>("")
+
+  const handlePhotoSelected = (photo:string) => {
+    setSelectedPhoto(photo || null);
+  }
+
+  const handleContinue = (url: string) => {
+    setGeneratedPhoto(url);
+  }
+
+  const handleStartOver = () => {
+    setSelectedPhoto(null);
+    setGeneratedPhoto(null);
+  }
+
+
     return (
         <>
             <Header />
@@ -15,7 +33,11 @@ export function HomeContent() {
                         <Hero />
                     </div>
                     <div className="flex items-center justify-center">
-                        <UploadPhoto />
+                        <UploadPhoto
+                          onPhotoSelected={handlePhotoSelected}
+                          onContinue={handleContinue}
+                          selectedPhoto={selectedPhoto}
+                        />
                     </div>
                 </div>
             </main>
